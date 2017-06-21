@@ -72,7 +72,7 @@ export default class Droppable extends React.Component {
         let props = Object.assign({}, this.props)
         if (this.props.wrapperComponent) props = Object.assign(props, this.props.wrapperComponent.props)
         const data = !props.types ? null : [].concat(props.types).reduce((d, type) => {
-            d[type] = e.dataTransfer.getData(type)
+            d[type] = e.dataTransfer.getData(e.dataTransfer.types)
             return d
         },{})
         if (typeof this.props.onDrop === 'function') this.props.onDrop(data, e)
@@ -81,7 +81,7 @@ export default class Droppable extends React.Component {
         let props = Object.assign({}, this.props)
         if (this.props.wrapperComponent) props = Object.assign(props, this.props.wrapperComponent.props)
         if (!props.enabled) return false
-        let _attemptingTypes = utils.toArray(attemptingTypes)
+        let _attemptingTypes = attemptingTypes.pop().split(',')
         if (!props.types) return true
         return [].concat(props.types).reduce((sum, type) => {
             if (_attemptingTypes.indexOf(type) >= 0) return true
